@@ -17,7 +17,8 @@
 # RStudio files
 .Rproj.user/
 
-# produced vignettes
+# produced vignettes: all the vignettes are not written yet
+vignettes/*
 vignettes/*.html
 vignettes/*.pdf
 
