@@ -9,3 +9,7 @@ It has three main goals:
 * Indentify the most important features needed for data analysis
 
 * Provide automatic analysis that makes them easy to use from R
+
+# TODO
+
+* Report for each analysis e.g.) check_model

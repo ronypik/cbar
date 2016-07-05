@@ -1,4 +1,4 @@
-Package: bayr
+Package: cbar
 Type: Package
 Title: Analysing Time-series Data
 Version: 0.0.2
@@ -13,7 +13,9 @@ Imports:
     reshape2,
     lsa,
     chron,
-    miscTools
+    miscTools,
+    stringr,
+    stringi
 Suggests:
     testthat,
     knitr,

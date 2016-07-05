@@ -1,3 +1,7 @@
+# Temporary files for development
+inst/*
+data/*
+
 # History files
 .Rhistory
 .Rapp.history
