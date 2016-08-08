@@ -63,7 +63,15 @@ create_model <- function(.data,
                                .get_extracted_values(source_values_in_X,
                                                     extracted_patterns_in_X))
 
+    removed_patterns_in_X <- prior[["remove_patterns_in_X"]]
+    for (removed_pattern in removed_patterns_in_X) {
+      values_to_extract <- union(values_to_extract,
+                                 .get_extracted_values(names(X),
+                                                       removed_pattern))
+    }
+
     X <- X %>% select_(., .dots = setdiff(names(X), values_to_extract))
+    stopifnot(ncol(X) >= size_of_model)
 
     model <- .create_model(y, X, size_of_model)
     targets[["priors"]][[target_name]][["X_formula"]] <- model

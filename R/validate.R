@@ -175,6 +175,11 @@ validate_priors <- function(target_names, priors) {
       prior[["extract_patterns_in_X"]] <- val
     }
 
+    if (!"model_size" %in% names(prior)) {
+      val <- priors[["default"]][["model_size"]]
+      prior[["model_size"]] <- val
+    }
+
     priors[[target_name]] <- prior
   }
 

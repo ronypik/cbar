@@ -1,5 +1,6 @@
 # Temporary files for development
 inst/*
+inst*
 data/*
 
 # History files
@@ -36,3 +37,6 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+
+# Temporary files under development
+R/estimate.R
