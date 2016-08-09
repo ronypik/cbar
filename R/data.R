@@ -8,17 +8,12 @@
 data_join <- function(.dep.data,
                       .indep.data) {
 
-# Why I did this?
-#  stopifnot(.dep.colname %in% colnames(.dep.data))
-
   ret <- .dep.data %>%
-# Why I did this?
-#         select(Datetime, Date, matches(.dep.colname)) %>%
          left_join(.indep.data) %>%
          .[complete.cases(.), ]
 
   # TODO(kim.seonghyun): Define its own class name
-  # class(ret) <- "not_yet"
+  # class(ret) <- "cbar_data"
 
   return(ret)
 }
@@ -63,6 +58,9 @@ refnr <- function(.data, formulas, target_name = NULL) {
 
 #' Transform data
 #'
+#' @param .data
+#' @param targets
+#' @param plan
 transform_data <- function(.data, targets, plan) {
   target_name <- as.character(plan[["target_name"]])
   prior <- targets[["priors"]][[target_name]]

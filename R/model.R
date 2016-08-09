@@ -1,12 +1,24 @@
-#' Main function
+#' Create model
 #'
+#' hallo
+#'
+#' @param .data
+#' @param targets
+#' @param size_of_model
+#' @export
+#' @examples
+#' create_model()
 create_model <- function(.data,
                          targets,
                          size_of_model = 5){
+
   .create_model <- function(y, X, size_of_model = 5) {
     x_cors <- c()
     x_names <- c()
-    standarized <- function(x){return ((x - mean(x)) / sd(x))}
+    # TODO(kim): Use pryr::f as follows
+    # standarized <- pryr::f(x - mean(x) / sd(x))
+    standarized <- function(x){(x - mean(x)) / sd(x)}
+
     for (x_name in names(X)) {
       # Make sure that no invalid value inside target. NA for instance.
       target <- cbind(y, unlist(X[, x_name])) %>% as.data.frame
@@ -16,6 +28,7 @@ create_model <- function(.data,
       x_cors <- c(x_cors, x_cor)
       x_names <- c(x_names, x_name)
     }
+
     names(x_cors) <- x_names
     x_cors <- sort(x_cors) %>% rev
     x_cors <- x_cors[1:ifelse(size_of_model < length(x_cors),
