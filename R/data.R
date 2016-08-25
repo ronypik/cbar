@@ -23,6 +23,9 @@ data_join <- function(.dep.data,
 #' @param .data
 #' @param formulas
 refnr <- function(.data, formulas, target_name = NULL) {
+  # TODO: Think about the naming issue. Do we really need to restrict user to
+  # use specific column names?
+
   .refnr <- function(.data, formulas) {
     stopifnot(names(formulas) == c("Name", "Formula"))
     res <- data.frame(matrix(vector(), nrow(.data), 0),

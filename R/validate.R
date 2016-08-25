@@ -17,6 +17,7 @@ validate_data <- function(.data, plan) {
   #   plan: a list of data analysis plan
   # TODO(kim.seonghyun) : Fix error handling from validity to error throwing
   # TODO(kim.seonghyun) : checkData is TOO long
+  # TODO(kim.seonghyun) : Clean code
 
   # plan specifies how the data will be analysed, and will be checked
   # if this data is possible to be analysed or not. For example, KPI values can
@@ -139,6 +140,9 @@ validate_data <- function(.data, plan) {
 #' Validate priors
 #'
 validate_priors <- function(target_names, priors) {
+  # TODO(kim.seonghyun): Add description
+  # TODO(kim.seonghyun): Clean code
+
   stopifnot(!missing(target_names))
   stopifnot(length(target_names) > 0)
   stopifnot(!is.null(priors))

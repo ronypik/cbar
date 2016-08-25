@@ -7,16 +7,17 @@
 #' @param targets A prior
 #' @param model_size
 check_model <- function(.data, plans, targets, model_size = 3) {
-  .measure_prederrs <- function(checked_data) {
+  .measure_prederrs <- function(checked_data,
+                                incprobs = NULL,
+                                coefs = NULL) {
     test_period <- checked_data$mea.idxs[1]:checked_data$mea.idxs[2]
-
-    incprobs <- c(0, rep(model_size / (ncol(checked_data$target.data) - 1),
-                         (ncol(checked_data$target.data) - 1)))
 
     res <- ZDBayes::ZDSAD(checked_data$target.data,
                           checked_data$ref.idxs,
                           checked_data$mea.idxs,
-                          prior.incprobs = incprobs)
+                          prior.incprobs = checked_data$incprobs,
+                          coef.est = checked_data$coefs)
+
     response <- res$series$response[test_period] %>% na.omit %>% abs
     point.pred <- res$series$point.pred[test_period] %>% na.omit %>% abs
     pred.errors <- abs(response - point.pred) / abs(response)
@@ -27,6 +28,8 @@ check_model <- function(.data, plans, targets, model_size = 3) {
                 model_coef = model.coef))
   }
 
+  # TODO: Use a better way of storing data in two array. I think there is, so
+  # ask this in Stack Overflow.
   set_of_pred_errors <- double()
   set_of_incprobs <- double()
   names.of.exp <- c()
@@ -40,6 +43,9 @@ check_model <- function(.data, plans, targets, model_size = 3) {
                           plan[["testing_period"]])
     checked_data <- transform_data(.data, targets, plan) %>%
                     validate_data(plan)
+    checked_data$incprobs <- get_prior_incprobs(checked_data, targets, target_name)
+    checked_data$coefs <- get_prior_coefs(checked_data, targets, target_name)
+
     if (checked_data$valid == T) {
       res <- checked_data %>% .measure_prederrs
       pred.errs <- res[["pred_errs"]] %>% as.vector
