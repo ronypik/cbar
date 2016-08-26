@@ -49,7 +49,7 @@ create_model <- function(.data,
   }
 
   for (target_name in targets[["target_names"]]) {
-#    target_name <- targets[["target_names"]][1]
+#    cat(" -", target_name, "\n")
     prior <- targets[["priors"]][[target_name]]
 
 #    # TODO(kim.seonghyun): Remove following two conditions by using validate
@@ -62,6 +62,12 @@ create_model <- function(.data,
 #    }
 
     Y <- refnr(.data, prior[["y_formula"]])
+    if(!target_name %in% names(Y)) {
+#      cat("   Failed!\n")
+      targets[["priors"]][[target_name]][["X_formula"]] <- NULL
+      next
+    }
+
     y <- Y[, target_name]
     X <- .data %>% select(-Datetime, -Label, -Period)
 

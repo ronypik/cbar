@@ -18,6 +18,10 @@ check_model <- function(.data, plans, targets, model_size = 3) {
                           prior.incprobs = checked_data$incprobs,
                           coef.est = checked_data$coefs)
 
+    if(is.null(res$model$ZDBayes.model)) {
+      return(NULL)
+    }
+
     response <- res$series$response[test_period] %>% na.omit %>% abs
     point.pred <- res$series$point.pred[test_period] %>% na.omit %>% abs
     pred.errors <- abs(response - point.pred) / abs(response)
@@ -38,16 +42,31 @@ check_model <- function(.data, plans, targets, model_size = 3) {
     cat(i, "/", nrow(plans), "...\n")
 
     plan <- plans[i, ]
-
+    target_name <- plan[["target_name"]] %>% as.character
     name.of.exp <- paste0(plan[["training_period"]], "|",
                           plan[["testing_period"]])
-    checked_data <- transform_data(.data, targets, plan) %>%
-                    validate_data(plan)
-    checked_data$incprobs <- get_prior_incprobs(checked_data, targets, target_name)
-    checked_data$coefs <- get_prior_coefs(checked_data, targets, target_name)
+
+    prior <- targets[["priors"]][[target_name]]
+    if(is.null(prior[["X_formula"]])) {
+      next
+    }
+
+    transformed_data <- transform_data(.data, targets, plan) %>%
+    # You should have at least 4 columns - Datetime, Date, d.v, and i.v
+    if (ncol(transformed_data) < 4){
+      next
+    }
+
+    checked_data <- validate_data(transformed_data, plan)
+    message("TODO: add it later")
+#    checked_data$incprobs <- get_prior_incprobs(checked_data, targets, target_name)
+#    checked_data$coefs <- get_prior_coefs(checked_data, targets, target_name)
 
     if (checked_data$valid == T) {
       res <- checked_data %>% .measure_prederrs
+      if (is.null(res)) {
+        next
+      }
       pred.errs <- res[["pred_errs"]] %>% as.vector
       model.coef <- res[["model_coef"]]
 

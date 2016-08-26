@@ -1,7 +1,7 @@
 # Temporary files for development
-inst/*
 inst*
-data/*
+lt*
+data*
 
 # History files
 .Rhistory

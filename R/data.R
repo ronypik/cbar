@@ -53,7 +53,7 @@ refnr <- function(.data, formulas, target_name = NULL) {
     dplyr::select(Datetime, Date, 1:ncol(.))
 
   if (!is.null(target_name)) {
-    res <- res %>% dplyr::select(Datetime, Date, matches(target_name))
+    res <- res %>% dplyr::select(Datetime, Date, match(target_name, names(.)))
   }
 
   return(res)
@@ -68,6 +68,8 @@ transform_data <- function(.data, targets, plan) {
   target_name <- as.character(plan[["target_name"]])
   prior <- targets[["priors"]][[target_name]]
   stopifnot(!is.null(prior))
+  stopifnot(!is.null(prior[["y_formula"]]))
+  stopifnot(!is.null(prior[["X_formula"]]))
 
   y_i <- refnr(.data, prior[["y_formula"]], target_name)
   X_i <- refnr(.data, prior[["X_formula"]])
