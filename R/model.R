@@ -10,7 +10,8 @@
 #' create_model()
 create_model <- function(.data,
                          targets,
-                         size_of_model = 5){
+                         size_of_model = 5,
+                         verbose = T){
 
   .create_model <- function(y, X, size_of_model = 5) {
     x_cors <- c()
@@ -49,7 +50,7 @@ create_model <- function(.data,
   }
 
   for (target_name in targets[["target_names"]]) {
-#    cat(" -", target_name, "\n")
+    if (verbose) cat(" -", target_name, "\n")
     prior <- targets[["priors"]][[target_name]]
 
 #    # TODO(kim.seonghyun): Remove following two conditions by using validate
@@ -63,7 +64,7 @@ create_model <- function(.data,
 
     Y <- refnr(.data, prior[["y_formula"]])
     if(!target_name %in% names(Y)) {
-#      cat("   Failed!\n")
+      if (verbose) cat("   Failed!\n")
       targets[["priors"]][[target_name]][["X_formula"]] <- NULL
       next
     }

@@ -51,14 +51,15 @@ check_model <- function(.data, plans, targets, model_size = 3) {
       next
     }
 
-    transformed_data <- transform_data(.data, targets, plan) %>%
+    transformed_data <- transform_data(.data, targets, plan)
+
     # You should have at least 4 columns - Datetime, Date, d.v, and i.v
     if (ncol(transformed_data) < 4){
       next
     }
 
     checked_data <- validate_data(transformed_data, plan)
-    message("TODO: add it later")
+    message("TODO: add prior it later")
 #    checked_data$incprobs <- get_prior_incprobs(checked_data, targets, target_name)
 #    checked_data$coefs <- get_prior_coefs(checked_data, targets, target_name)
 

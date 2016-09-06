@@ -12,6 +12,18 @@ It has three main goals:
 
 * Provide automatic analysis that makes them easy to use from R
 
-# TODO
+# Terminology
+* .data: data table to be used
 
+* .scope: training period, testing period, and KPI names
+
+* .setting: algorithm setting
+
+* .plans: combination of .scope and .setting
+
+* .prior: prior values for model and formula tables for i.v. and d.v.
+
+* .result
+
+# TODO
 * Report for each analysis e.g.) check_model
