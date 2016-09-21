@@ -139,8 +139,11 @@ validate_data <- function(.data, plan) {
 
 #' Validate priors
 #'
+#' This function aims to create complete prior structure based on the input
+#' otherwise it will throw error
+#'
 validate_priors <- function(target_names, priors) {
-  # TODO(kim.seonghyun): Add description
+  # TODO(kim.seonghyun): Add *better* description
   # TODO(kim.seonghyun): Clean code
 
   stopifnot(!missing(target_names))
